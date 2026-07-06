@@ -1,0 +1,4 @@
+game:
+  board-size: 4
+  win-value: 2048
+  four-spawn-probability: 0.125   # this is assumption, 1/8 feels right
