@@ -3,13 +3,17 @@ import config.GameConfig;
 public class Board {
 
   private final Integer[][] grid;
+  private int winValue;
 
   public Board(GameConfig config) {
     this.grid = new Integer[config.getBoardSize()][config.getBoardSize()];
+    this.winValue = config.getWinValue();
   }
 
-  public Board(Integer[][] grid) {
+  //testing purposes
+  public Board(Integer[][] grid, int winValue) {
     this.grid = grid;
+    this.winValue = winValue;
   }
 
   @Override
@@ -28,15 +32,41 @@ public class Board {
     return builder.toString();
   }
 
-  public boolean isWon(){
+  public boolean isWon() {
+    for (Integer[] row : grid) {
+      for (Integer cell : row) {
+        if (cell != null && cell == winValue) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 
-  public boolean isGameOver(){
+  public boolean hasAvailableMoves() {
+    for (int row = 0; row < grid.length; row++) {
+      for (int column = 0; column < grid[row].length; column++) {
+        Integer cell = grid[row][column];
+
+        // an empty cell means another number can appear
+        if (cell == null) {
+          return true;
+        }
+
+        // neighbours can be merged
+        boolean equalRightNeighbour = column + 1 < grid[row].length && cell.equals(grid[row][column + 1]);
+        boolean equalDownNeighbour = row + 1 < grid.length && cell.equals(grid[row + 1][column]);
+        if (equalRightNeighbour || equalDownNeighbour) return true;
+      }
+    }
     return false;
   }
 
-  public Board move(){
+  public boolean isGameOver() {
+    return !hasAvailableMoves();
+  }
+
+  public Board move() {
     return null;
   }
 }
