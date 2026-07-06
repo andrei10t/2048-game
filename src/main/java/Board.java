@@ -93,7 +93,37 @@ public class Board {
     return !hasAvailableMoves();
   }
 
-  public Board move() {
-    return null;
+  public void move(Direction direction) {
+    switch (direction) {
+      case LEFT -> collapseAllRowsLeft();
+      case RIGHT -> {
+        reverseAllRows();
+        collapseAllRowsLeft();
+        reverseAllRows();
+      }
+      case UP -> {
+        transpose();
+        collapseAllRowsLeft();
+        transpose();
+      }
+      case DOWN -> {
+        transpose();
+        reverseAllRows();
+        collapseAllRowsLeft();
+        reverseAllRows();
+        transpose();
+      }
+    }
+  }
+
+  private void collapseAllRowsLeft() {
+  }
+
+  private void transpose(){
+
+  }
+
+  private void reverseAllRows(){
+
   }
 }
