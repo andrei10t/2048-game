@@ -117,13 +117,54 @@ public class Board {
   }
 
   private void collapseAllRowsLeft() {
+    for (Integer[] row : grid) {
+      Integer[] collapsed = collapseRowLeft(row);
+      System.arraycopy(collapsed, 0, row, 0, collapsed.length);
+    }
   }
 
-  private void transpose(){
+  // [null 8 2 2] -> [8 4 null null]
+  // [2 2 2 2] -> [ 4 4 null null]
+  private Integer[] collapseRowLeft(Integer[] row) {
+    List<Integer> valuesToMerge = new ArrayList<>();
+    for (Integer cell : row) {
+      if (cell != null) {
+        valuesToMerge.add(cell);
+      }
+    }
 
+    List<Integer> merged = new ArrayList<>();
+    for (int index = 0; index < valuesToMerge.size(); index++) {
+      boolean canMerge =
+          index + 1 < valuesToMerge.size() && valuesToMerge.get(index).equals(valuesToMerge.get(index + 1));
+      if (canMerge) {
+        merged.add(valuesToMerge.get(index) * 2);
+        index++; // skip the tile we just merged
+      } else {
+        merged.add(valuesToMerge.get(index));
+      }
+    }
+
+    return merged.toArray(new Integer[row.length]);
   }
 
-  private void reverseAllRows(){
+  private void transpose() {
+    for (int row = 0; row < grid.length; row++) {
+      for (int column = row + 1; column < grid[row].length; column++) {
+        Integer temp = grid[row][column];
+        grid[row][column] = grid[column][row];
+        grid[column][row] = temp;
+      }
+    }
+  }
 
+  private void reverseAllRows() {
+    for (Integer[] row : grid) {
+      for (int left = 0, right = row.length - 1; left < right; left++, right--) {
+        Integer temp = row[left];
+        row[left] = row[right];
+        row[right] = temp;
+      }
+    }
   }
 }
