@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import config.GameConfig;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
@@ -57,5 +58,11 @@ class BoardTest {
     assertTrue(board3.isGameOver());
     assertFalse(board2.isGameOver());
     assertFalse(board1.isGameOver());
+  }
+
+  @Test
+  void testSetupBoard(){
+    Board board = new Board(new GameConfig(4, 2048, 0.1));
+    System.out.println(board);
   }
 }
