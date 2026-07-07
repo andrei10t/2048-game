@@ -37,7 +37,7 @@ number or range.
 Extremely fun, lots of stuff that can be optimized, I just made it work for now. 
 1. no logger, just systemprintout
 2. no unit-tests
-3. 
+3. many more issues not fixing due to time constraint. 
    
 
 
