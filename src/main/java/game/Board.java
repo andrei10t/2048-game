@@ -10,8 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Board {
 
   private final Integer[][] grid;
-  private int winValue;
-  private double fourSpawnProbability;
+  private final int winValue;
+  private final double fourSpawnProbability;
 
   public Board(GameConfig config) {
     this.winValue = config.getWinValue();
@@ -40,6 +40,7 @@ public class Board {
   public Board(Integer[][] grid, int winValue) {
     this.grid = grid;
     this.winValue = winValue;
+    this.fourSpawnProbability = 0;
   }
 
   private void setupBoard() {

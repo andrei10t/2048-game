@@ -1,5 +1,6 @@
 package game;
 
+import config.AiConfig;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -39,16 +40,16 @@ public class GameUtil {
   }
 
   // ask a locally running Ollama for the best next move
-  static String suggestMove(Board board, String url, String model, String promptTemplate) {
-    String prompt = promptTemplate.replace("{board}", board.toString());
+  static String suggestMove(Board board, AiConfig aiConfig) {
+    String prompt = aiConfig.getPromptTemplate().replace("{board}", board.toString());
 
     String requestBody =
-        "{\"model\":\"" + model + "\",\"stream\":false,\"prompt\":\""
+        "{\"model\":\"" + aiConfig.getModel() + "\",\"stream\":false,\"prompt\":\""
             + StringUtil.escapeJson(prompt) + "\"}";
 
     try {
       Process process =
-          new ProcessBuilder("curl", "-s", url, "-d", requestBody)
+          new ProcessBuilder("curl", "-s", aiConfig.getUrl(), "-d", requestBody)
               .redirectErrorStream(true)
               .start();
       String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);

@@ -35,6 +35,9 @@ number or range.
 3. Model can be a different container, right now it is sending a request to localhost. 
 
 Extremely fun, lots of stuff that can be optimized, I just made it work for now. 
+1. no logger, just systemprintout
+2. no unit-tests
+3. 
    
 
 

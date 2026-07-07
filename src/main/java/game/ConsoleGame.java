@@ -27,34 +27,22 @@ public class ConsoleGame implements CommandLineRunner {
     startOllama(aiConfig.isShowLogs());
     Board board = new Board(gameConfig);
     Scanner scanner = new Scanner(System.in);
-    //how much time did we play this session
-    LocalDateTime startTime = LocalDateTime.now();
-
+    
     System.out.println("Use W/A/S/D to move, 'h' for an AI hint, 'q' to quit");
     System.out.println(board);
 
-    while (true) {
-      if (board.isWon()) {
-        partyParrot();
-        break;
-      }
-      if (board.isGameOver()) {
-        System.out.println("Better luck next time!");
-        break;
-      }
-
+    while (!board.isWon() && !board.isGameOver()) {
       System.out.print("Move: ");
       if (!scanner.hasNextLine()) {
         break;
       }
       String input = scanner.nextLine().trim();
-      if (input.equals("q") || input.equals("Q")) {
+      if (input.equalsIgnoreCase("q")) {
         break;
       }
 
-      if (input.equals("h") || input.equals("H")) {
-        String suggestion =
-            suggestMove(board, aiConfig.getUrl(), aiConfig.getModel(), aiConfig.getPromptTemplate());
+      if (input.equalsIgnoreCase("h")) {
+        String suggestion = suggestMove(board, aiConfig);
         System.out.println(
             suggestion == null ? "AI hint unavailable" : "AI suggests: " + suggestion);
         continue;
@@ -68,6 +56,12 @@ public class ConsoleGame implements CommandLineRunner {
       board.move(direction);
 
       System.out.println(board);
+    }
+
+    if (board.isWon()) {
+      partyParrot();
+    } else if (board.isGameOver()) {
+      System.out.println("Better luck next time!");
     }
   }
 
