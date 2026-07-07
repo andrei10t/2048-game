@@ -9,10 +9,12 @@ public class Board {
 
   private final Integer[][] grid;
   private int winValue;
+  private double fourSpawnProbability;
 
   public Board(GameConfig config) {
     this.grid = new Integer[config.getBoardSize()][config.getBoardSize()];
     this.winValue = config.getWinValue();
+    this.fourSpawnProbability = config.getFourSpawnProbability();
     setupBoard();
   }
 
@@ -118,7 +120,32 @@ public class Board {
         transpose();
       }
     }
-    return isChangedGrid(before);
+    boolean isChanged = isChangedGrid(before);
+    if (isChanged) {
+      spawnRandomTile();
+    }
+    return isChanged;
+  }
+
+  //drop a 2/4 in a random empty cell
+  private void spawnRandomTile() {
+    List<List<Integer>> availableEmptyCells = new ArrayList<>();
+    for (int row = 0; row < grid.length; row++) {
+      for (int column = 0; column < grid[row].length; column++) {
+        if (grid[row][column] == null) {
+          availableEmptyCells.add(List.of(row, column));
+        }
+      }
+    }
+
+    if (availableEmptyCells.isEmpty()) {
+      return;
+    }
+
+    List<Integer> cellToSpawn =
+        availableEmptyCells.get(ThreadLocalRandom.current().nextInt(availableEmptyCells.size()));
+    grid[cellToSpawn.get(0)][cellToSpawn.get(1)] =
+        ThreadLocalRandom.current().nextDouble() < fourSpawnProbability ? 4 : 2;
   }
 
   //deep clone the grid
