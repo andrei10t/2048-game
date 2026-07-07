@@ -65,4 +65,21 @@ class BoardTest {
     Board board = new Board(new GameConfig(4, 2048, 0.1));
     System.out.println(board);
   }
+
+  @Test
+  void collapsesRowsToTheLeft() {
+    Integer[][] grid = {
+        {null, 8, 2, 2},
+        {2, 2, 2, 2},
+        {null, null, null, null},
+        {null, null, null, null}
+    };
+
+    Board board = new Board(grid, 2048);
+    board.move(Direction.LEFT);
+    String rendered = board.toString();
+
+    assertEquals("[8, 4, null, null]", rendered.lines().toList().get(0));
+    assertEquals("[4, 4, null, null]", rendered.lines().toList().get(1));
+  }
 }
