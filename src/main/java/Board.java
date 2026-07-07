@@ -2,6 +2,7 @@ import config.GameConfig;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
@@ -93,7 +94,10 @@ public class Board {
     return !hasAvailableMoves();
   }
 
-  public void move(Direction direction) {
+  //return whether move produced a change
+  public boolean move(Direction direction) {
+    Integer[][] before = snapshotGrid();
+
     switch (direction) {
       case LEFT -> collapseAllRowsLeft();
       case RIGHT -> {
@@ -114,8 +118,32 @@ public class Board {
         transpose();
       }
     }
+    return isChangedGrid(before);
   }
 
+  //deep clone the grid
+  //TODO can be done nicer
+  private Integer[][] snapshotGrid() {
+    Integer[][] copy = new Integer[grid.length][];
+    for (int row = 0; row < grid.length; row++) {
+      copy[row] = grid[row].clone();
+    }
+    return copy;
+  }
+
+  //are two grids holding the same values?
+  private boolean isChangedGrid(Integer[][] before) {
+    for (int row = 0; row < grid.length; row++) {
+      for (int column = 0; column < grid[row].length; column++) {
+        if (!Objects.equals(before[row][column], grid[row][column])) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  //every move is a collapse left if reversed+transposed
   private void collapseAllRowsLeft() {
     for (Integer[] row : grid) {
       Integer[] collapsed = collapseRowLeft(row);
