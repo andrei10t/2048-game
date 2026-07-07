@@ -14,10 +14,26 @@ public class Board {
   private double fourSpawnProbability;
 
   public Board(GameConfig config) {
-    this.grid = new Integer[config.getBoardSize()][config.getBoardSize()];
     this.winValue = config.getWinValue();
     this.fourSpawnProbability = config.getFourSpawnProbability();
-    setupBoard();
+    Integer[][] startingGrid = config.getStartingGrid();
+
+    //You either have a starting config(testing purposes)
+    //or generate a random one
+    if (startingGrid != null && startingGrid.length > 0) {
+      // can't put null in config, so im converting 0s to null
+      for (Integer[] row : startingGrid) {
+        for (int column = 0; column < row.length; column++) {
+          if (row[column] == 0) {
+            row[column] = null;
+          }
+        }
+      }
+      this.grid = startingGrid;
+    } else {
+      this.grid = new Integer[config.getBoardSize()][config.getBoardSize()];
+      setupBoard();
+    }
   }
 
   //testing purposes

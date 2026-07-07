@@ -1,6 +1,9 @@
 package game;
 
+import static game.GameUtil.partyParrot;
+
 import config.GameConfig;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,16 +18,18 @@ public class ConsoleGame implements CommandLineRunner {
   }
 
   @Override
-  public void run(String... args) {
+  public void run(String... args) throws InterruptedException {
     Board board = new Board(gameConfig);
     Scanner scanner = new Scanner(System.in);
+    //how much time did we play this session
+    LocalDateTime startTime = LocalDateTime.now();
 
-    System.out.println("Use W/A/S/D to move");
+    System.out.println("Use W/A/S/D to move, type 'q' to quit");
     System.out.println(board);
 
     while (true) {
       if (board.isWon()) {
-        System.out.println("You win!");
+        partyParrot();
         break;
       }
       if (board.isGameOver()) {
@@ -37,6 +42,9 @@ public class ConsoleGame implements CommandLineRunner {
         break;
       }
       String input = scanner.nextLine().trim();
+      if (input.equals("q") || input.equals("Q")) {
+        break;
+      }
 
       Direction direction = toDirection(input);
       if (direction == null) {
@@ -52,7 +60,7 @@ public class ConsoleGame implements CommandLineRunner {
   private Direction toDirection(String input) {
     return switch (input) {
       case "w","W" -> Direction.UP;
-      case "a","A" -> Direction.LEFT;
+      case "a","A"-> Direction.LEFT;
       case "s","S" -> Direction.DOWN;
       case "d","D" -> Direction.RIGHT;
       default -> null;
