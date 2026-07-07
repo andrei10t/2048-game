@@ -6,11 +6,13 @@ game:
 ollama:
   url: http://localhost:11434/api/generate
   model: qwen2.5:0.5b
+  show-logs: false
   prompt-template: |
     You are an expert 2048 player. Here is the board (null = empty cell):
     {board}
-    Reply with exactly ONE word the - best move to avoid game over and reach 2048 -
+    Reply with exactly ONE word - the best move to avoid game over and reach 2048 -
     one of: UP, DOWN, LEFT, RIGHT. No explanation.
+
 #  optional config
 #  starting-grid:
 #    - [ 2, 2, 0, 0 ]

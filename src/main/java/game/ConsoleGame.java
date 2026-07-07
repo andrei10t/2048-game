@@ -1,6 +1,7 @@
 package game;
 
 import static game.GameUtil.partyParrot;
+import static game.GameUtil.startOllama;
 import static game.GameUtil.suggestMove;
 
 import config.AiConfig;
@@ -23,6 +24,7 @@ public class ConsoleGame implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
+    startOllama(aiConfig.isShowLogs());
     Board board = new Board(gameConfig);
     Scanner scanner = new Scanner(System.in);
     //how much time did we play this session

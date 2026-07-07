@@ -12,4 +12,5 @@ public class AiConfig {
   private final String url;
   private final String model;
   private final String promptTemplate;
+  private final boolean showLogs;
 }

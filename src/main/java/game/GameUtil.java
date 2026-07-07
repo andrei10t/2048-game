@@ -4,6 +4,29 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class GameUtil {
+
+  //start a local Ollama server
+  //done here instead of comand line so that we can use options easier
+  //ofcourse in a real project, environment variables are easier to manage, could set them in the pipeline
+  static void startOllama(boolean showLogs) {
+    ProcessBuilder builder = new ProcessBuilder("ollama", "serve");
+    if (showLogs) {
+      builder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+          .redirectError(ProcessBuilder.Redirect.INHERIT);
+    } else {
+      builder.redirectOutput(ProcessBuilder.Redirect.DISCARD)
+          .redirectError(ProcessBuilder.Redirect.DISCARD);
+    }
+    try {
+      builder.start();
+      Thread.sleep(3000);
+    } catch (IOException exception) {
+      System.err.println("<startOllama> could not start Ollama: " + exception.getMessage());
+    } catch (InterruptedException exception) {
+      Thread.currentThread().interrupt();
+    }
+  }
+
   static void partyParrot() {
     try {
       new ProcessBuilder("curl", "parrot.live")
