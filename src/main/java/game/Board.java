@@ -1,3 +1,5 @@
+package game;
+
 import config.GameConfig;
 import java.util.ArrayList;
 import java.util.Collections;
