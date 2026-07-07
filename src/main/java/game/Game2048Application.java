@@ -1,5 +1,6 @@
 package game;
 
+import config.AiConfig;
 import config.GameConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 
 @SpringBootApplication
-@EnableConfigurationProperties(GameConfig.class)
+@EnableConfigurationProperties({GameConfig.class, AiConfig.class})
 public class Game2048Application {
 
   public static void main(String[] args) {

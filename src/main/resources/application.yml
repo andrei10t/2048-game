@@ -2,6 +2,15 @@ game:
   board-size: 4
   win-value: 2048
   four-spawn-probability: 0.1   # checked online
+
+ollama:
+  url: http://localhost:11434/api/generate
+  model: qwen2.5:0.5b
+  prompt-template: |
+    You are an expert 2048 player. Here is the board (null = empty cell):
+    {board}
+    Reply with exactly ONE word the - best move to avoid game over and reach 2048 -
+    one of: UP, DOWN, LEFT, RIGHT. No explanation.
 #  optional config
 #  starting-grid:
 #    - [ 2, 2, 0, 0 ]
